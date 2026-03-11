@@ -23,14 +23,43 @@
               <a class="nav-link active" aria-current="page" href="{{url_for('page_home')}}">Home</a>
               <a class="nav-link" href="{{url_for('page_produto')}}">Produtos</a>
             </div>
+            {% if current_user.is_authenticated %}
             <div class="navbar-nav ms-auto">
-              <a class="nav-link" href="#">Login</a>
-              <a class="nav-link" href="#">Cadastro</a>
+              <a class="nav-link" style="color: lawngreen; font-weight: bold;">
+                <i>{{current_user.formataValor}}</i>
+              </a>
+              <a class="nav-link">Bem vindo, {{current_user.usuario}}</a>
+              <a class="nav-link" href="{{url_for('page_logout')}}">Logout</a>              
             </div>
+            {%else%}
+            <div class="navbar-nav ms-auto">
+              <a class="nav-link" href="{{url_for('page_login')}}">Login</a>
+              <a class="nav-link" href="{{url_for('page_cadastro')}}">Cadastro</a>
+            </div>
+            {%endif%}
             
           </div>
         </div>
       </nav>
+      {%with messages = get_flashed_messages(with_categories=true)%}
+           {%if messages%}
+               {%for category, message in messages%}
+               <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+              <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+              ></button>
+                             {{message}}
+               </div>
+
+
+               
+
+               {%endfor%}
+            {%endif%}
+        {%endwith%}
       {%block conteudos%}
 
       {%endblock%}
